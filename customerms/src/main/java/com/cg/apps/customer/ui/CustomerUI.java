@@ -1,11 +1,14 @@
 package com.cg.apps.customer.ui;
 
+import com.cg.apps.customer.entities.Account;
 import com.cg.apps.customer.entities.Customer;
 import com.cg.apps.customer.exceptions.InvalidIdException;
 import com.cg.apps.customer.service.ICustomerService;
 import com.cg.apps.customer.exceptions.InvalidNameException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Component
 public class CustomerUI {
@@ -15,7 +18,9 @@ public class CustomerUI {
 
     public void start() {
         try {
-            Customer shikhar = service.createCustomer("Shikhar");
+            Account haha = new Account(1200.0, LocalDateTime.now());
+            Customer shikhar = service.createCustomer("Rishabh");
+            shikhar.setAccount(haha);
             display(shikhar);
             Customer ajinkya = service.createCustomer("Ajinkya");
             display(ajinkya);
