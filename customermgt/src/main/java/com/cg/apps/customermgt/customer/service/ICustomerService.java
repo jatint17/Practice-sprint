@@ -6,4 +6,6 @@ public interface ICustomerService
 {
     Customer findByID(Long customerID);
     Customer createCustomer(String name); //create customer and their account also here
+    Customer updateCustomer(Long id, String name);
+
 }

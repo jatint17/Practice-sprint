@@ -6,13 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class CustomermgtApplication {
-
+public class CustomermgtApplication
+{
 	public static void main(String[] args)
 	{
 		ConfigurableApplicationContext context = SpringApplication.run(CustomermgtApplication.class, args);
 		CustomerUI customerUI = context.getBean(CustomerUI.class);
 		customerUI.start();
 	}
-
 }

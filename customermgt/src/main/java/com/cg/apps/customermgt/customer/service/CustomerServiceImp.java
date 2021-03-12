@@ -31,6 +31,18 @@ public class CustomerServiceImp implements ICustomerService
         return customer;
     }
 
+    @Transactional
+    @Override
+    public Customer updateCustomer(Long id, String name)
+    {
+        validateId(id);
+        validateName(name);
+        Customer customer = findByID(id);
+        customer.setCustName(name);
+        customer = dao.update(customer);
+        return customer;
+    }
+
     public void validateId(Long id)
     {
         if(id <0){

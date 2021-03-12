@@ -12,13 +12,13 @@ public class Customer
 	@Id
 	private Long custId;
 	private String custName;
-	private Account account;
+	//private Account account;
 	
 	public Customer() {}
-	public Customer(String custName, Account account)
+	public Customer(String custName)//, Account account)
 	{
 		this.custName=custName;
-		this.account=account;
+		//this.account=account;
 	}
 
 	public Long getCustId() {
@@ -37,33 +37,31 @@ public class Customer
 		this.custName = custName;
 	}
 
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
+//	public Account getAccount() {
+//		return account;
+//	}
+//
+//	public void setAccount(Account account) {
+//		this.account = account;
+//	}
 
 	@Override
 	public String toString() {
 		return "Customer{" +
 				"custId=" + custId +
-				", custName='" + custName + '\'' +
-				", account=" + account +
-				'}';
+				", custName='" + custName; // +	", account=" + account +'}';
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Customer customer = (Customer) o;
-		return Objects.equals(custId, customer.custId) && Objects.equals(custName, customer.custName) && Objects.equals(account, customer.account);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(custId, custName, account);
-	}
+//	@Override
+//	public boolean equals(Object o) {
+//		if (this == o) return true;
+//		if (o == null || getClass() != o.getClass()) return false;
+//		Customer customer = (Customer) o;
+//		return Objects.equals(custId, customer.custId) && Objects.equals(custName, customer.custName) && Objects.equals(account, customer.account);
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		return Objects.hash(custId, custName, account);
+//	}
 }
