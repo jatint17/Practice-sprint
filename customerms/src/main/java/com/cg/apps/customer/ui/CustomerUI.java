@@ -1,14 +1,10 @@
 package com.cg.apps.customer.ui;
 
-import com.cg.apps.customer.entities.Account;
-import com.cg.apps.customer.entities.Customer;
-import com.cg.apps.customer.exceptions.InvalidIdException;
-import com.cg.apps.customer.exceptions.InvalidNameException;
-import com.cg.apps.customer.service.ICustomerService;
+import com.cg.apps.customer.entities.*;
+import com.cg.apps.customer.exceptions.*;
+import com.cg.apps.customer.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Component
 public class CustomerUI 
