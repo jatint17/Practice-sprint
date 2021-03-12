@@ -21,34 +21,40 @@ public class CustomerServiceImpl implements ICustomerService {
 	@Autowired
 	private EntityManager entityManager;
 
-	@Override
-	public Customer findByID(Long customerID) {
-		validateId(customerID);
-		Customer customer = dao.findByID(customerID);
-		return customer;	}
-
+	
 	@Transactional
+	@Override
 	public Customer createCustomer(String name)
 	{
 		validateName(name);
+		
 		LocalDateTime localDateTime = LocalDateTime.now();
 		Customer customer =new Customer();
 		Account account = new Account(-1.0,localDateTime);
+		
 		customer.setAccount(account);
 		customer.setName(name);
 		entityManager.persist(account);
 		dao.add(customer);
 		return customer;
 	}
+	
+	@Override
+	public Customer findByID(Long customerID) 
+	{
+		validateId(customerID);
+		Customer customer = dao.findByID(customerID);
+		return customer;	
+	}
 
 	@Transactional
 	@Override
-	public Customer update(Long id, String name) {
+	public Customer update(Long id, String name) 
+	{
 		validateName(name);
 		Customer customer = dao.findByID(id);
 		customer = dao.update(customer);
 		return customer;
-
 	}
 
    void validateName(String name){

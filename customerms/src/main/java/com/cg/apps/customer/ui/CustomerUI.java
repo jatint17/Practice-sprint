@@ -3,28 +3,28 @@ package com.cg.apps.customer.ui;
 import com.cg.apps.customer.entities.Account;
 import com.cg.apps.customer.entities.Customer;
 import com.cg.apps.customer.exceptions.InvalidIdException;
-import com.cg.apps.customer.service.ICustomerService;
 import com.cg.apps.customer.exceptions.InvalidNameException;
+import com.cg.apps.customer.service.ICustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Component
-public class CustomerUI {
+public class CustomerUI 
+{
     @Autowired
     private ICustomerService service ;
 
-
-    public void start() {
-        try {
-            Account haha = new Account(1200.0, LocalDateTime.now());
-            Customer shikhar = service.createCustomer("Rishabh");
-            shikhar.setAccount(haha);
-            display(shikhar);
+    public void start() 
+    {
+        try 
+        {
+            Customer shikhar = service.createCustomer("Shikhar");
             Customer ajinkya = service.createCustomer("Ajinkya");
+            display(shikhar);
             display(ajinkya);
-
+            
             Long id = shikhar.getId();
             Customer fetchedCustomer = service.findByID(id);
 
@@ -32,12 +32,14 @@ public class CustomerUI {
             System.out.println("Fetched Employee");
             display(fetchedCustomer);
 
-        }catch(InvalidIdException e){
+        }
+        catch(InvalidIdException e)
+        {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-
-        catch(InvalidNameException e){
+        catch(InvalidNameException e)
+        {
            System.out.println(e.getMessage());
            e.printStackTrace();
         }
@@ -46,7 +48,6 @@ public class CustomerUI {
             System.out.println("something went wrong!!");
             e.printStackTrace();
         }
-
     }
 
     public void display(Customer customer){
