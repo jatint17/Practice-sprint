@@ -4,6 +4,7 @@ import com.cg.apps.items.entities.Item;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Random;
 
 @Repository
 public class ItemDaoImp implements IItemDao
@@ -14,7 +15,11 @@ public class ItemDaoImp implements IItemDao
     public String generateId(Item item)
     {
         String des = item.getDescription();
-        String id = des.substring(0,2);
+        Random random = new Random();
+        String alphabet = "1234567890";
+        char generate = alphabet.charAt(random.nextInt(alphabet.length()));
+        String randomChar = String.valueOf(generate);
+        String id = des.substring(0,2).concat(randomChar);
         return id;
     }
 
