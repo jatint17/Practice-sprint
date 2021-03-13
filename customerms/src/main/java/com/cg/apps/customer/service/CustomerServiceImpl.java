@@ -5,12 +5,17 @@ import com.cg.apps.customer.entities.Customer;
 import com.cg.apps.customer.exceptions.InvalidIdException;
 import com.cg.apps.customer.dao.ICustomerDao;
 import com.cg.apps.customer.exceptions.InvalidNameException;
+import com.cg.apps.items.dao.IItemDao;
+import com.cg.apps.items.entities.Item;
+import com.cg.apps.items.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Service
@@ -20,7 +25,8 @@ public class CustomerServiceImpl implements ICustomerService {
 	private ICustomerDao dao;
 	@Autowired
 	private EntityManager entityManager;
-
+	@Autowired
+	private IItemService iItemService;
 	
 	@Transactional
 	@Override
@@ -55,6 +61,15 @@ public class CustomerServiceImpl implements ICustomerService {
 		Customer customer = dao.findByID(id);
 		customer = dao.update(customer);
 		return customer;
+	}
+
+	@Override
+	public Set<Item> itemsBoughtByCustomer(Long customerID)
+	{
+		validateId(customerID);
+		Customer customer = findByID(customerID);
+		Set<Item>itemSet = customer.getBoughtItems();
+		return itemSet;
 	}
 
    void validateName(String name){

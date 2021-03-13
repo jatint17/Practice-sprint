@@ -1,10 +1,10 @@
 package com.cg.apps.customer.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import com.cg.apps.items.entities.Item;
+
+import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -16,6 +16,10 @@ public class Customer {
 	private String name;
 	@OneToOne
 	private Account account;
+
+	@OneToMany(fetch=FetchType.EAGER)
+	private Set<Item> boughtItems;
+
 
 	public Customer(){}
 
@@ -49,12 +53,21 @@ public class Customer {
 		this.account = account;
 	}
 
+	public Set<Item> getBoughtItems() {
+		return boughtItems;
+	}
+
+	public void setBoughtItems(Set<Item> boughtItems) {
+		this.boughtItems = boughtItems;
+	}
+
 	@Override
 	public String toString() {
 		return "Customer{" +
 				"id=" + id +
 				", name='" + name + '\'' +
 				", account=" + account +
+				", boughtItems=" + boughtItems +
 				'}';
 	}
 
@@ -63,11 +76,11 @@ public class Customer {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Customer customer = (Customer) o;
-		return Objects.equals(id, customer.id) && Objects.equals(name, customer.name) && Objects.equals(account, customer.account);
+		return Objects.equals(id, customer.id) && Objects.equals(name, customer.name) && Objects.equals(account, customer.account) && Objects.equals(boughtItems, customer.boughtItems);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, account);
+		return Objects.hash(id, name, account, boughtItems);
 	}
 }

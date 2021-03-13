@@ -6,5 +6,5 @@ public interface IItemService
 {
     Item create(Double price, String description);
     Item findByID(String itemID);
-    //Item buyItem(String itemID, Long customerID);
+    Item buyItem(String itemID, Long customerID);
 }
