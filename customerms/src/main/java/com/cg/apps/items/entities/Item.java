@@ -78,11 +78,11 @@ public class Item
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return Objects.equals(id, item.id) && Objects.equals(price, item.price) && Objects.equals(description, item.description) && Objects.equals(boughtBy, item.boughtBy) && Objects.equals(addedDate, item.addedDate);
+        return Objects.equals(id, item.id) && Objects.equals(price, item.price) && Objects.equals(description, item.description) && Objects.equals(addedDate, item.addedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, description, boughtBy, addedDate);
+        return Objects.hash(id, price, description, addedDate);
     }
 }

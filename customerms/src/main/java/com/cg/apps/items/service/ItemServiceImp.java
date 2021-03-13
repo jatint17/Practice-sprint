@@ -56,8 +56,8 @@ public class ItemServiceImp implements IItemService
         {
             itemSet = new HashSet<>();
         }
-
         customer.setBoughtItems(itemSet);
+
         itemSet.add(item);
         customerDao.update(customer);
         return item;
