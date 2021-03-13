@@ -31,6 +31,8 @@ public class CustomerUI
             System.out.println("-------------------------\nCUSTOMERS");
             Customer shikhar = service.createCustomer("Shikhar");
             Customer ajinkya = service.createCustomer("Ajinkya");
+            Customer accountShikhar = service.addAmount(shikhar.getId(),21000.0);
+            Customer accountAjinkya = service.addAmount(ajinkya.getId(),17560.5);
             displayCustomer(shikhar);
             displayCustomer(ajinkya);
 
@@ -40,10 +42,9 @@ public class CustomerUI
             System.out.println("Fetched Employee");
             displayCustomer(fetchedCustomer);
 
-            Item item = itemService.buyItem(shoe.getId(), shikhar.getId());
-            Set<Item> itemSet = shikhar.getBoughtItems();
-            System.out.println("-------------------------\n");
-            System.out.println(itemSet);
+            System.out.println("-------------------------\nITEMS BOUGHT");
+            Item item1 = itemService.buyItem(shoe.getId(),shikhar.getId());
+            System.out.println("Item *"+item1.getDescription()+"* bought");
         }
         catch(InvalidIdException e)
         {

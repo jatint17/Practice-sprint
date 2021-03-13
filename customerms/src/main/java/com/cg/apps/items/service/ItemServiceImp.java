@@ -7,8 +7,6 @@ import com.cg.apps.items.entities.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,16 +42,24 @@ public class ItemServiceImp implements IItemService
         return item;
     }
 
+    @Transactional
     @Override
     public Item buyItem(String itemID, Long customerID)
     {
         Item item = findByID(itemID);
         Customer customer = customerDao.findByID(customerID);
         item.setBoughtBy(customer);
+        item = dao.update(item);
 
         Set<Item> itemSet = customer.getBoughtItems();
-        itemSet.add(item);
+        if(itemSet==null)
+        {
+            itemSet = new HashSet<>();
+        }
+
         customer.setBoughtItems(itemSet);
+        itemSet.add(item);
+        customerDao.update(customer);
         return item;
     }
 }

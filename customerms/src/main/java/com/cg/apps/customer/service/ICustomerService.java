@@ -11,5 +11,5 @@ public interface ICustomerService
     Customer createCustomer(String name);
     Customer update(Long id,String name);
     Set<Item> itemsBoughtByCustomer(Long customerID);
-
+    public Customer addAmount(long customerId, double amount);
 }

@@ -1,7 +1,6 @@
 package com.cg.apps.customer.entities;
 
 import com.cg.apps.items.entities.Item;
-
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;

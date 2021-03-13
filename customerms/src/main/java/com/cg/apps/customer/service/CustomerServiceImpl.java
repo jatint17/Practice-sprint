@@ -5,7 +5,6 @@ import com.cg.apps.customer.entities.Customer;
 import com.cg.apps.customer.exceptions.InvalidIdException;
 import com.cg.apps.customer.dao.ICustomerDao;
 import com.cg.apps.customer.exceptions.InvalidNameException;
-import com.cg.apps.items.dao.IItemDao;
 import com.cg.apps.items.entities.Item;
 import com.cg.apps.items.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +62,18 @@ public class CustomerServiceImpl implements ICustomerService {
 		return customer;
 	}
 
+	@Transactional
+	@Override
+	public Customer addAmount(long customerId, double amount)
+	{
+		Customer customer = findByID(customerId);
+		Account account = customer.getAccount();
+		account.setBalance(amount);
+		entityManager.merge(account);
+		dao.update(customer);
+		return customer;
+	}
+
 	@Override
 	public Set<Item> itemsBoughtByCustomer(Long customerID)
 	{
@@ -72,14 +83,18 @@ public class CustomerServiceImpl implements ICustomerService {
 		return itemSet;
 	}
 
-   void validateName(String name){
-		if(name==null || name.isEmpty() || name.trim().isEmpty()){
+   void validateName(String name)
+   {
+		if(name==null || name.isEmpty() || name.trim().isEmpty())
+		{
 			throw new InvalidNameException("name can't be null or empty");
 		}
 	}
 
-	void validateId(Long id){
-		if(id <0){
+	void validateId(Long id)
+	{
+		if(id <0)
+		{
 			throw new InvalidIdException("id should not be negative");
 		}
 	}
