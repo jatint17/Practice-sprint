@@ -24,7 +24,7 @@ public class CustomerServiceImpl implements ICustomerService {
 	@Autowired
 	private ICustomerDao dao;
 	@Autowired
-	private EntityManager entityManager;
+	EntityManager entityManager;
 	@Autowired
 	private IItemService iItemService;
 	

@@ -10,14 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class ItemServiceImp implements IItemService
 {
     @Autowired
     private IItemDao dao;
-    @Autowired
-    EntityManager entityManager;
     @Autowired
     private ICustomerDao customerDao;
 
@@ -50,7 +50,10 @@ public class ItemServiceImp implements IItemService
         Item item = findByID(itemID);
         Customer customer = customerDao.findByID(customerID);
         item.setBoughtBy(customer);
-        entityManager.merge(item);
+
+        Set<Item> itemSet = customer.getBoughtItems();
+        itemSet.add(item);
+        customer.setBoughtItems(itemSet);
         return item;
     }
 }
