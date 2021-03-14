@@ -1,9 +1,6 @@
 package com.cg.apps.customer.controller;
 
-import com.cg.apps.customer.dto.AddAmountRequest;
-import com.cg.apps.customer.dto.CreateCustomerRequest;
-import com.cg.apps.customer.dto.CustomerDetails;
-import com.cg.apps.customer.dto.UpdateCustomerRequest;
+import com.cg.apps.customer.dto.*;
 import com.cg.apps.customer.entities.Customer;
 import com.cg.apps.customer.service.ICustomerService;
 import com.cg.apps.customer.util.CustomerUtil;

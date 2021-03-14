@@ -1,7 +1,7 @@
 package com.cg.apps.customer.dao;
 
 import com.cg.apps.customer.entities.Customer;
-import com.cg.apps.customer.exceptions.CustomerNotFoundException;
+import com.cg.apps.items.exceptions.InvalidPriceException;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,7 +25,7 @@ public class CustomerDaoImpl implements ICustomerDao {
 		Customer customer =entityManager.find(Customer.class,customerID);
 		if(customer ==null)
 		{
-			throw new CustomerNotFoundException("Customer doesn't exist");
+			throw new InvalidPriceException("Customer doesn't exist");
 		}
 		return customer;
 	}

@@ -4,6 +4,8 @@ import com.cg.apps.customer.dao.ICustomerDao;
 import com.cg.apps.customer.entities.Customer;
 import com.cg.apps.items.dao.IItemDao;
 import com.cg.apps.items.entities.Item;
+import com.cg.apps.items.exceptions.InvalidIdException;
+import com.cg.apps.items.exceptions.InvalidPriceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,8 @@ public class ItemServiceImp implements IItemService
     @Override
     public Item create(Double price, String description)
     {
+        validatePrice(price);
+
         Item item = new Item();
         LocalDateTime localDateTime = LocalDateTime.now();
 
@@ -38,6 +42,8 @@ public class ItemServiceImp implements IItemService
     @Override
     public Item findByID(String itemID)
     {
+        validateItemId(itemID);
+
         Item item = dao.findByID(itemID);
         return item;
     }
@@ -46,6 +52,9 @@ public class ItemServiceImp implements IItemService
     @Override
     public Item buyItem(String itemID, Long customerID)
     {
+        validateItemId(itemID);
+        validateId(customerID);
+
         Item item = findByID(itemID);
         Customer customer = customerDao.findByID(customerID);
         item.setBoughtBy(customer);
@@ -62,4 +71,29 @@ public class ItemServiceImp implements IItemService
         customerDao.update(customer);
         return item;
     }
+
+    public void validateId(Long id)
+    {
+        if(id<0)
+        {
+            throw new InvalidIdException("ID can't be negative");
+        }
+    }
+
+    public void validateItemId(String id)
+    {
+        if(id==null || id.isEmpty() || id.trim().isEmpty())
+        {
+            throw new InvalidIdException("ID can't be null");
+        }
+    }
+
+    public void validatePrice(Double price)
+    {
+        if(price==0)
+        {
+            throw new InvalidPriceException("Price can't be zero");
+        }
+    }
+
 }

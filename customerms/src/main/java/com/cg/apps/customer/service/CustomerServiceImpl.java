@@ -2,18 +2,16 @@ package com.cg.apps.customer.service;
 
 import com.cg.apps.customer.entities.Account;
 import com.cg.apps.customer.entities.Customer;
-import com.cg.apps.customer.exceptions.InvalidIdException;
 import com.cg.apps.customer.dao.ICustomerDao;
-import com.cg.apps.customer.exceptions.InvalidNameException;
 import com.cg.apps.items.entities.Item;
+import com.cg.apps.items.exceptions.InvalidIdException;
+import com.cg.apps.items.exceptions.InvalidNameException;
 import com.cg.apps.items.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 
