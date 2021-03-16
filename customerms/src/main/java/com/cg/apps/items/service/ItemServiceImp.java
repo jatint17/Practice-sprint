@@ -1,41 +1,59 @@
 package com.cg.apps.items.service;
 
-import com.cg.apps.customer.dao.ICustomerDao;
+import com.cg.apps.customer.dao.ICustomerRepository;
 import com.cg.apps.customer.entities.Customer;
-import com.cg.apps.items.dao.IItemDao;
+import com.cg.apps.items.dao.IItemRepository;
 import com.cg.apps.items.entities.Item;
 import com.cg.apps.items.exceptions.InvalidIdException;
 import com.cg.apps.items.exceptions.InvalidPriceException;
+import com.cg.apps.items.exceptions.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 
 @Service
 public class ItemServiceImp implements IItemService
 {
     @Autowired
-    private IItemDao dao;
+    private IItemRepository itemRepository;
     @Autowired
-    private ICustomerDao customerDao;
+    private ICustomerRepository customerRepository;
 
+    public String generateId()
+    {
+        Random random = new Random();
+        String alphabet = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder sb = new StringBuilder();
+        char generate;
+        for(int i=0;i<10;i++)
+        {
+            generate = alphabet.charAt(random.nextInt(alphabet.length()));
+            sb.append(generate);
+        }
+        String id = sb.toString();
+        return id;
+    }
 
     @Transactional
     @Override
     public Item create(Double price, String description)
     {
         validatePrice(price);
-
+        String id = generateId();
         Item item = new Item();
         LocalDateTime localDateTime = LocalDateTime.now();
 
+        item.setId(id);
         item.setPrice(price);
         item.setDescription(description);
         item.setAddedDate(localDateTime);
 
-        item = dao.add(item);
+        item = itemRepository.save(item);
         return item;
     }
 
@@ -43,8 +61,12 @@ public class ItemServiceImp implements IItemService
     public Item findByID(String itemID)
     {
         validateItemId(itemID);
-
-        Item item = dao.findByID(itemID);
+        Optional<Item> optional = itemRepository.findById(itemID);
+        if(!optional.isPresent())
+        {
+            throw new ItemNotFoundException("Item does not exist");
+        }
+        Item item = optional.get();
         return item;
     }
 
@@ -56,9 +78,11 @@ public class ItemServiceImp implements IItemService
         validateId(customerID);
 
         Item item = findByID(itemID);
-        Customer customer = customerDao.findByID(customerID);
+        Optional<Customer> customerOptional = customerRepository.findById(customerID);
+        Customer customer = customerOptional.get();
+
         item.setBoughtBy(customer);
-        item = dao.update(item);
+        item = itemRepository.save(item);
 
         Set<Item> itemSet = customer.getBoughtItems();
         if(itemSet==null)
@@ -68,7 +92,7 @@ public class ItemServiceImp implements IItemService
         customer.setBoughtItems(itemSet);
 
         itemSet.add(item);
-        customerDao.update(customer);
+        customerRepository.save(customer);
         return item;
     }
 

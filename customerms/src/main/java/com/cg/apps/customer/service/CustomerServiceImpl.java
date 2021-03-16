@@ -1,8 +1,10 @@
 package com.cg.apps.customer.service;
 
+import com.cg.apps.customer.dao.IAccountRepository;
+import com.cg.apps.customer.dao.ICustomerRepository;
 import com.cg.apps.customer.entities.Account;
 import com.cg.apps.customer.entities.Customer;
-import com.cg.apps.customer.dao.ICustomerDao;
+import com.cg.apps.customer.exceptions.CustomerNotFoundException;
 import com.cg.apps.items.entities.Item;
 import com.cg.apps.items.exceptions.InvalidIdException;
 import com.cg.apps.items.exceptions.InvalidNameException;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -19,9 +22,9 @@ import java.util.Set;
 public class CustomerServiceImpl implements ICustomerService {
 
 	@Autowired
-	private ICustomerDao dao;
+	private ICustomerRepository customerRepository;
 	@Autowired
-	EntityManager entityManager;
+	private IAccountRepository accountRepository;
 	@Autowired
 	private IItemService iItemService;
 	
@@ -37,8 +40,8 @@ public class CustomerServiceImpl implements ICustomerService {
 		
 		customer.setAccount(account);
 		customer.setName(name);
-		entityManager.persist(account);
-		dao.add(customer);
+		accountRepository.save(account);
+		customerRepository.save(customer);
 		return customer;
 	}
 	
@@ -46,8 +49,13 @@ public class CustomerServiceImpl implements ICustomerService {
 	public Customer findByID(Long customerID) 
 	{
 		validateId(customerID);
-		Customer customer = dao.findByID(customerID);
-		return customer;	
+		Optional<Customer>optional = customerRepository.findById(customerID);
+		if(!optional.isPresent())
+		{
+			throw new CustomerNotFoundException("Customer does not exist");
+		}
+		Customer customer = optional.get();
+		return customer;
 	}
 
 	@Transactional
@@ -55,8 +63,8 @@ public class CustomerServiceImpl implements ICustomerService {
 	public Customer update(Long id, String name) 
 	{
 		validateName(name);
-		Customer customer = dao.findByID(id);
-		customer = dao.update(customer);
+		Customer customer = findByID(id);
+		customer = customerRepository.save(customer);
 		return customer;
 	}
 
@@ -67,8 +75,8 @@ public class CustomerServiceImpl implements ICustomerService {
 		Customer customer = findByID(customerId);
 		Account account = customer.getAccount();
 		account.setBalance(amount);
-		entityManager.merge(account);
-		dao.update(customer);
+		accountRepository.save(account);
+		customerRepository.save(customer);
 		return customer;
 	}
 
