@@ -4,6 +4,9 @@ import com.cg.apps.customer.dto.*;
 import com.cg.apps.customer.entities.Customer;
 import com.cg.apps.customer.service.ICustomerService;
 import com.cg.apps.customer.util.CustomerUtil;
+import com.cg.apps.items.dto.BuyItemRequest;
+import com.cg.apps.items.entities.Item;
+import com.cg.apps.items.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +16,8 @@ public class CustomerRestController
 {
     @Autowired
     ICustomerService service;
+    @Autowired
+    IItemService itemService;
     @Autowired
     CustomerUtil util;
 

@@ -8,6 +8,8 @@ import com.cg.apps.items.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Component
 public class CustomerUI 
 {
@@ -29,8 +31,8 @@ public class CustomerUI
             System.out.println("-------------------------\nCUSTOMERS");
             Customer shikhar = service.createCustomer("Shikhar");
             Customer ajinkya = service.createCustomer("Ajinkya");
-            Customer accountShikhar = service.addAmount(shikhar.getId(),21000.0);
-            Customer accountAjinkya = service.addAmount(ajinkya.getId(),17560.5);
+            shikhar = service.addAmount(shikhar.getId(),21000.0);
+            ajinkya = service.addAmount(ajinkya.getId(),17560.5);
             displayCustomer(shikhar);
             displayCustomer(ajinkya);
 
@@ -42,7 +44,16 @@ public class CustomerUI
 
             System.out.println("-------------------------\nITEMS BOUGHT");
             Item item1 = itemService.buyItem(shoe.getId(),shikhar.getId());
-            System.out.println("Item *"+item1.getDescription()+"* bought");
+            Item item2 = itemService.buyItem(shirt.getId(),shikhar.getId());
+
+            System.out.println("Item *"+item1.getDescription()+"* bought by "+item1.getBoughtBy().getName());
+            System.out.println("Item *"+item2.getDescription()+"* bought by "+item2.getBoughtBy().getName());
+
+            Set<Item> items = service.itemsBoughtByCustomer(shikhar.getId());
+            System.out.println("Items Bought by "+shikhar.getName()+":");
+            items.stream().map(x->x.getDescription()).forEach(System.out::println);
+            System.out.println("Balance left for "+shikhar.getName()+" is: "+shikhar.getAccount().getBalance());
+
         }
         catch(InvalidIdException e)
         {

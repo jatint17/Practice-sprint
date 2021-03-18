@@ -77,9 +77,9 @@ public class ItemServiceImp implements IItemService
         validateItemId(itemID);
         validateId(customerID);
 
-        Item item = findByID(itemID);
         Optional<Customer> customerOptional = customerRepository.findById(customerID);
         Customer customer = customerOptional.get();
+        Item item = findByID(itemID);
 
         item.setBoughtBy(customer);
         item = itemRepository.save(item);
@@ -89,9 +89,13 @@ public class ItemServiceImp implements IItemService
         {
             itemSet = new HashSet<>();
         }
+        itemSet.add(item);
         customer.setBoughtItems(itemSet);
 
-        itemSet.add(item);
+        Double balance = customer.getAccount().getBalance();
+        balance = balance - item.getPrice();
+        customer.getAccount().setBalance(balance);
+
         customerRepository.save(customer);
         return item;
     }

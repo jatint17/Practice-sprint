@@ -8,11 +8,9 @@ import com.cg.apps.customer.exceptions.CustomerNotFoundException;
 import com.cg.apps.items.entities.Item;
 import com.cg.apps.items.exceptions.InvalidIdException;
 import com.cg.apps.items.exceptions.InvalidNameException;
-import com.cg.apps.items.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
@@ -25,8 +23,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	private ICustomerRepository customerRepository;
 	@Autowired
 	private IAccountRepository accountRepository;
-	@Autowired
-	private IItemService iItemService;
 	
 	@Transactional
 	@Override
@@ -75,6 +71,7 @@ public class CustomerServiceImpl implements ICustomerService {
 		Customer customer = findByID(customerId);
 		Account account = customer.getAccount();
 		account.setBalance(amount);
+		customer.setAccount(account);
 		accountRepository.save(account);
 		customerRepository.save(customer);
 		return customer;
