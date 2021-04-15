@@ -8,6 +8,7 @@ import com.cg.apps.items.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -53,6 +54,18 @@ public class CustomerUI
             System.out.println("Items Bought by "+shikhar.getName()+":");
             items.stream().map(x->x.getDescription()).forEach(System.out::println);
             System.out.println("Balance left for "+shikhar.getName()+" is: "+shikhar.getAccount().getBalance());
+
+            System.out.println("-------------------------\nALL CUSTOMERS");
+            List<Customer> customers = service.findAll();
+            for(Customer customer:customers)
+            {
+                System.out.println(customer.getId() + " - " + customer.getName());
+            }
+//            List<Customer> customers = service.findCustomerByName(shikhar.getName());
+//            for(Customer customer : customers)
+//            {
+//                displayCustomer(customer);
+//            }
 
         }
         catch(InvalidIdException e)

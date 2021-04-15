@@ -1,8 +1,6 @@
 package com.cg.apps.customer.controller;
 
-import com.cg.apps.customer.exceptions.CustomerNotFoundException;
-import com.cg.apps.items.exceptions.InvalidIdException;
-import com.cg.apps.items.exceptions.InvalidNameException;
+import com.cg.apps.customer.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

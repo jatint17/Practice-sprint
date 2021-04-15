@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -51,6 +53,21 @@ public class CustomerServiceImpl implements ICustomerService {
 		Customer customer = optional.get();
 		return customer;
 	}
+
+	@Override
+	public List<Customer> findAll()
+	{
+		List<Customer> customers = customerRepository.findAll();
+		return customers;
+	}
+
+//	@Override
+//	public List<Customer> findCustomerByName(String name)
+//	{
+//		List<Customer> customers = new ArrayList<>();
+//		customers.addAll(customerRepository.findCustomerByName(name));
+//		return customers;
+//	}
 
 	@Transactional
 	@Override

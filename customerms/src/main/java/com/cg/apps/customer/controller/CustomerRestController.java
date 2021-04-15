@@ -8,8 +8,13 @@ import com.cg.apps.items.dto.BuyItemRequest;
 import com.cg.apps.items.entities.Item;
 import com.cg.apps.items.service.IItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.List;
+
+@Validated
 @RequestMapping("/customers")
 @RestController
 public class CustomerRestController
@@ -28,8 +33,22 @@ public class CustomerRestController
         return util.toDetail(customer);
     }
 
+    @GetMapping(value = "")
+    public List<CustomerDetails> getAllCustomers()
+    {
+        List<Customer> customers = service.findAll();
+        return util.toDetails(customers);
+    }
+
+//    @GetMapping(value = "byname/{name}")
+//    public List<CustomerDetails> getCustomerByName(@PathVariable String name)
+//    {
+//        List<Customer> customers = service.findCustomerByName(name);
+//        return util.toDetails(customers);
+//    }
+
     @PostMapping(value = "/add")
-    public CustomerDetails addCustomer(@RequestBody CreateCustomerRequest createCustomerRequest)
+    public CustomerDetails addCustomer(@RequestBody @Valid CreateCustomerRequest createCustomerRequest)
     {
         Customer customer = service.createCustomer(createCustomerRequest.getName());
         return util.toDetail(customer);
